@@ -2,7 +2,11 @@
 // OpenTelemetry Service.
 package main
 
-import "github.com/open-telemetry/opentelemetry-service/otelsvc"
+import (
+	"github.com/open-telemetry/opentelemetry-service/otelsvc"
+
+	_ "github.com/Omnition/internal-opentelemetry-service/exporters/kinesis"
+)
 
 func main() {
 	otelsvc.Run()

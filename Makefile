@@ -80,6 +80,7 @@ vet:
 .PHONY: install-tools
 install-tools:
 	go install golang.org/x/lint/golint
+	go install github.com/jstemmer/go-junit-report
 
 .PHONY: omnitelsvc
 omnitelsvc:
