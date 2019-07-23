@@ -36,7 +36,7 @@ fmt-vet-lint-test: fmt vet lint test
 
 .PHONY: test
 test:
-	$(GOTEST) $(GOTEST_OPT) $(ALL_PKGS)
+	$(GOTEST) -mod=vendor $(GOTEST_OPT) $(ALL_PKGS)
 
 .PHONY: travis-ci
 travis-ci: fmt vet lint test-with-cover
@@ -46,8 +46,8 @@ test-with-cover:
 	@echo Verifying that all packages have test files to count in coverage
 	@scripts/check-test-files.sh $(subst github.com/Omnition/internal-opentelemetry-service/,./,$(ALL_PKGS))
 	@echo pre-compiling tests
-	@time go test -i $(ALL_PKGS)
-	$(GOTEST) $(GOTEST_OPT_WITH_COVERAGE) $(ALL_PKGS)
+	@time go test -mod=vendor -i $(ALL_PKGS)
+	$(GOTEST) -mod=vendor $(GOTEST_OPT_WITH_COVERAGE) $(ALL_PKGS)
 	go tool cover -html=coverage.txt -o coverage.html
 
 .PHONY: fmt
@@ -74,17 +74,22 @@ lint:
 
 .PHONY: vet
 vet:
-	@$(GOVET) ./...
+	@$(GOVET) -mod=vendor ./...
 	@echo "Vet finished successfully"
 
-.PHONY: install-tools
-install-tools:
+.PHONY: install
+install:
+	go mod download
 	go install golang.org/x/lint/golint
 	go install github.com/jstemmer/go-junit-report
+	go install github.com/omnition/gogoproto-rewriter
+	go mod vendor
+	gogoproto-rewriter vendor/github.com/open-telemetry/opentelemetry-service/
+	gogoproto-rewriter vendor/contrib.go.opencensus.io/exporter/
 
 .PHONY: omnitelsvc
 omnitelsvc:
-	GO111MODULE=on CGO_ENABLED=0 go build -o ./bin/$(GOOS)/omnitelsvc $(BUILD_INFO) ./cmd/omnitelsvc
+	GO111MODULE=on CGO_ENABLED=0 go build -mod=vendor -o ./bin/$(GOOS)/omnitelsvc $(BUILD_INFO) ./cmd/omnitelsvc
 
 .PHONY: docker-component # Not intended to be used directly
 docker-component: check-component
