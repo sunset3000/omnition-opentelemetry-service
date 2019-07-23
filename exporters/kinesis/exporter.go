@@ -4,7 +4,7 @@ import (
 	"context"
 
 	kinesis "github.com/omnition/opencensus-go-exporter-kinesis"
-	"github.com/open-telemetry/opentelemetry-service/data"
+	"github.com/open-telemetry/opentelemetry-service/consumer/consumerdata"
 	jaegertranslator "github.com/open-telemetry/opentelemetry-service/translator/trace/jaeger"
 	"go.uber.org/zap"
 )
@@ -16,7 +16,7 @@ type Exporter struct {
 }
 
 // ConsumeTraceData receives a span batch and exports it to AWS Kinesis
-func (e Exporter) ConsumeTraceData(c context.Context, td data.TraceData) error {
+func (e Exporter) ConsumeTraceData(c context.Context, td consumerdata.TraceData) error {
 	pBatch, err := jaegertranslator.OCProtoToJaegerProto(td)
 	if err != nil {
 		e.logger.Error("error translating span batch", zap.Error(err))

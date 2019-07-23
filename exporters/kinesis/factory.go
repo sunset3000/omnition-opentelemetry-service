@@ -2,13 +2,12 @@ package kinesis
 
 import (
 	kinesis "github.com/omnition/opencensus-go-exporter-kinesis"
+	"github.com/open-telemetry/opentelemetry-service/config/configerror"
+	"github.com/open-telemetry/opentelemetry-service/config/configmodels"
 	"github.com/open-telemetry/opentelemetry-service/consumer"
-	"github.com/open-telemetry/opentelemetry-service/factories"
-	"github.com/open-telemetry/opentelemetry-service/models"
+	"github.com/open-telemetry/opentelemetry-service/exporter"
 	"go.uber.org/zap"
 )
-
-var _ = factories.RegisterExporterFactory(&exporterFactory{})
 
 const (
 	// The value of "type" key in configuration.
@@ -16,22 +15,22 @@ const (
 	exportFormat = "jaeger-proto"
 )
 
-// exporterFactory is the factory for Kinesis exporter.
-type exporterFactory struct {
+// Factory is the factory for Kinesis exporter.
+type Factory struct {
 }
 
 // Type gets the type of the Exporter config created by this factory.
-func (f *exporterFactory) Type() string {
+func (f *Factory) Type() string {
 	return typeStr
 }
 
 // CreateDefaultConfig creates the default configuration for exporter.
-func (f *exporterFactory) CreateDefaultConfig() models.Exporter {
-	return &config{
-		AWS: awsConfig{
+func (f *Factory) CreateDefaultConfig() configmodels.Exporter {
+	return &Config{
+		AWS: AWSConfig{
 			Region: "us-west-2",
 		},
-		KPL: kplConfig{
+		KPL: KPLConfig{
 			BatchSize:            5242880,
 			BatchCount:           1000,
 			BacklogCount:         2000,
@@ -48,13 +47,8 @@ func (f *exporterFactory) CreateDefaultConfig() models.Exporter {
 }
 
 // CreateTraceExporter initializes and returns a new trace exporter
-func (f *exporterFactory) CreateTraceExporter(cfg models.Exporter) (consumer.TraceConsumer, factories.StopFunc, error) {
-	c := cfg.(*config)
-	//  TODO: refactor to take in logger from the main service
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return nil, nil, err
-	}
+func (f *Factory) CreateTraceExporter(logger *zap.Logger, cfg configmodels.Exporter) (consumer.TraceConsumer, exporter.StopFunc, error) {
+	c := cfg.(*Config)
 	k, err := kinesis.NewExporter(kinesis.Options{
 		Name:               c.Name(),
 		StreamName:         c.AWS.StreamName,
@@ -90,6 +84,6 @@ func (f *exporterFactory) CreateTraceExporter(cfg models.Exporter) (consumer.Tra
 }
 
 // CreateMetricsExporter creates a metrics exporter based on this config.
-func (f *exporterFactory) CreateMetricsExporter(cfg models.Exporter) (consumer.MetricsConsumer, factories.StopFunc, error) {
-	return nil, nil, factories.ErrDataTypeIsNotSupported
+func (f *Factory) CreateMetricsExporter(logger *zap.Logger, cfg configmodels.Exporter) (consumer.MetricsConsumer, exporter.StopFunc, error) {
+	return nil, nil, configerror.ErrDataTypeIsNotSupported
 }

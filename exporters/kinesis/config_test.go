@@ -7,31 +7,35 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/open-telemetry/opentelemetry-service/configv2"
-	"github.com/open-telemetry/opentelemetry-service/models"
+	"github.com/open-telemetry/opentelemetry-service/config"
+	"github.com/open-telemetry/opentelemetry-service/config/configmodels"
 )
 
-var _ = configv2.RegisterTestFactories()
-
 func TestDefaultConfig(t *testing.T) {
-	cfg, err := configv2.LoadConfigFile(t, path.Join(".", "testdata", "default.yaml"))
+	receiverFactories, processorsFactories, exporterFactories, err := config.ExampleComponents()
+	assert.Nil(t, err)
 
+	factory := &Factory{}
+	exporterFactories[factory.Type()] = factory
+	cfg, err := config.LoadConfigFile(
+		t, path.Join(".", "testdata", "default.yaml"), receiverFactories, processorsFactories, exporterFactories,
+	)
 	require.NoError(t, err)
 	require.NotNil(t, cfg)
 
 	e := cfg.Exporters["kinesis"]
 
 	assert.Equal(t, e,
-		&config{
-			ExporterSettings: models.ExporterSettings{
+		&Config{
+			ExporterSettings: configmodels.ExporterSettings{
 				TypeVal: "kinesis",
 				NameVal: "kinesis",
 				Enabled: true,
 			},
-			AWS: awsConfig{
+			AWS: AWSConfig{
 				Region: "us-west-2",
 			},
-			KPL: kplConfig{
+			KPL: KPLConfig{
 				BatchSize:            5242880,
 				BatchCount:           1000,
 				BacklogCount:         2000,
@@ -49,7 +53,14 @@ func TestDefaultConfig(t *testing.T) {
 }
 
 func TestConfig(t *testing.T) {
-	cfg, err := configv2.LoadConfigFile(t, path.Join(".", "testdata", "config.yaml"))
+	receiverFactories, processorsFactories, exporterFactories, err := config.ExampleComponents()
+	assert.Nil(t, err)
+
+	factory := &Factory{}
+	exporterFactories[factory.Type()] = factory
+	cfg, err := config.LoadConfigFile(
+		t, path.Join(".", "testdata", "config.yaml"), receiverFactories, processorsFactories, exporterFactories,
+	)
 
 	require.NoError(t, err)
 	require.NotNil(t, cfg)
@@ -57,19 +68,19 @@ func TestConfig(t *testing.T) {
 	e := cfg.Exporters["kinesis"]
 
 	assert.Equal(t, e,
-		&config{
-			ExporterSettings: models.ExporterSettings{
+		&Config{
+			ExporterSettings: configmodels.ExporterSettings{
 				TypeVal: "kinesis",
 				NameVal: "kinesis",
 				Enabled: true,
 			},
-			AWS: awsConfig{
+			AWS: AWSConfig{
 				StreamName:      "test-stream",
 				KinesisEndpoint: "kinesis.mars-1.aws.galactic",
 				Region:          "mars-1",
 				Role:            "arn:test-role",
 			},
-			KPL: kplConfig{
+			KPL: KPLConfig{
 				AggregateBatchCount:  10,
 				AggregateBatchSize:   11,
 				BatchSize:            12,

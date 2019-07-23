@@ -1,17 +1,20 @@
 package kinesis
 
 import (
-	"github.com/open-telemetry/opentelemetry-service/models"
+	"github.com/open-telemetry/opentelemetry-service/config/configmodels"
 )
 
-type awsConfig struct {
+// AWSConfig contains AWS specific configuration such as kinesis stream, region, etc.
+type AWSConfig struct {
 	StreamName      string `mapstructure:"stream-name,omitempty"`
 	KinesisEndpoint string `mapstructure:"kinesis-endpoint,omitempty"`
 	Region          string `mapstructure:"region,omitempty"`
 	Role            string `mapstructure:"role,omitempty"`
 }
 
-type kplConfig struct {
+// KPLConfig contains kinesis producer library related config to controls things
+// like aggregation, batching, connections, retries, etc.
+type KPLConfig struct {
 	AggregateBatchCount  int `mapstructure:"aggregate-batch-count,omitempty"`
 	AggregateBatchSize   int `mapstructure:"aggregate-batch-size,omitempty"`
 	BatchSize            int `mapstructure:"batch-size, omitempty"`
@@ -23,11 +26,12 @@ type kplConfig struct {
 	MaxBackoffSeconds    int `mapstructure:"max-backoff-seconds,omitempty"`
 }
 
-type config struct {
-	models.ExporterSettings `mapstructure:",squash"`
+// Config contains the main configuration options for the kinesis exporter
+type Config struct {
+	configmodels.ExporterSettings `mapstructure:",squash"`
 
-	AWS awsConfig `mapstructure:"aws,omitempty"`
-	KPL kplConfig `mapstructure:"kpl,omitempty"`
+	AWS AWSConfig `mapstructure:"aws,omitempty"`
+	KPL KPLConfig `mapstructure:"kpl,omitempty"`
 
 	QueueSize            int `mapstructure:"queue-size,omitempty"`
 	NumWorkers           int `mapstructure:"num-workers,omitempty"`
