@@ -30,7 +30,6 @@ func TestDefaultConfig(t *testing.T) {
 			ExporterSettings: configmodels.ExporterSettings{
 				TypeVal: "kinesis",
 				NameVal: "kinesis",
-				Enabled: true,
 			},
 			AWS: AWSConfig{
 				Region: "us-west-2",
@@ -72,7 +71,6 @@ func TestConfig(t *testing.T) {
 			ExporterSettings: configmodels.ExporterSettings{
 				TypeVal: "kinesis",
 				NameVal: "kinesis",
-				Enabled: true,
 			},
 			AWS: AWSConfig{
 				StreamName:      "test-stream",

@@ -5,8 +5,6 @@ package main
 import (
 	"log"
 
-	"github.com/Omnition/internal-opentelemetry-service/exporters/kinesis"
-	"github.com/open-telemetry/opentelemetry-service/defaults"
 	"github.com/open-telemetry/opentelemetry-service/service"
 )
 
@@ -17,11 +15,9 @@ func main() {
 		}
 	}
 
-	receivers, processors, exporters, err := defaults.Components()
+	receivers, processors, exporters, err := components()
 	handleErr(err)
 
-	kinesisFactory := &kinesis.Factory{}
-	exporters[kinesisFactory.Type()] = kinesisFactory
 	svc := service.New(receivers, processors, exporters)
 	err = svc.StartUnified()
 	handleErr(err)

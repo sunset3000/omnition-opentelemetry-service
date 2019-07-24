@@ -83,6 +83,10 @@ install:
 	go install golang.org/x/lint/golint
 	go install github.com/jstemmer/go-junit-report
 	go install github.com/omnition/gogoproto-rewriter
+	$(MAKE) dep
+
+.PHONY: dep
+dep:
 	go mod vendor
 	gogoproto-rewriter vendor/github.com/open-telemetry/opentelemetry-service/
 	gogoproto-rewriter vendor/contrib.go.opencensus.io/exporter/
