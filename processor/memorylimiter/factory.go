@@ -60,9 +60,9 @@ func (f *Factory) CreateTraceProcessor(
 		cfg.Name(),
 		nextConsumer,
 		pCfg.CheckInterval,
-		uint64(pCfg.MemoryLimitMiB*mibBytes),
-		uint64(pCfg.MemorySpikeLimitMiB*mibBytes),
-		uint64(pCfg.BallastSizeMiB*mibBytes),
+		uint64(pCfg.MemoryLimitMiB)*mibBytes,
+		uint64(pCfg.MemorySpikeLimitMiB)*mibBytes,
+		uint64(pCfg.BallastSizeMiB)*mibBytes,
 	)
 }
 

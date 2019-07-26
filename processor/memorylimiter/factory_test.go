@@ -50,10 +50,13 @@ func TestCreateProcessor(t *testing.T) {
 
 	// Create processor with a valid config.
 	pCfg := cfg.(*Config)
-	pCfg.MemoryLimitMiB = 100
-	pCfg.CheckInterval = 50 * time.Millisecond
+	pCfg.MemoryLimitMiB = 5722
+	pCfg.MemorySpikeLimitMiB = 1907
+	pCfg.BallastSizeMiB = 2048
+	pCfg.CheckInterval = 100 * time.Millisecond
 	tp, err = factory.CreateTraceProcessor(zap.NewNop(), exportertest.NewNopTraceExporter(), cfg)
+	assert.NoError(t, err)
 	assert.NotNil(t, tp)
-	defer tp.(*memoryLimiter).stopCheck()
-	assert.NoError(t, err, "cannot create processor with valid config")
+	tp.(*memoryLimiter).stopCheck()
+
 }
