@@ -16,6 +16,7 @@ import (
 	"github.com/open-telemetry/opentelemetry-service/receiver/zipkinreceiver"
 
 	"github.com/Omnition/internal-opentelemetry-service/exporters/kinesis"
+	"github.com/Omnition/internal-opentelemetry-service/processor/memorylimiter"
 	"github.com/Omnition/internal-opentelemetry-service/receiver/opencensusreceiver"
 )
 
@@ -50,6 +51,7 @@ func components() (
 		&attributekeyprocessor.Factory{},
 		&queued.Factory{},
 		&nodebatcher.Factory{},
+		&memorylimiter.Factory{},
 	)
 	if err != nil {
 		errs = append(errs, err)
