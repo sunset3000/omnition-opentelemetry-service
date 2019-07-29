@@ -16,9 +16,6 @@ import (
 type Config struct {
 	configmodels.ReceiverSettings `mapstructure:",squash"` // squash ensures fields are correctly decoded in embedded struct
 
-	// NumWorkers sets the number of workers spawned to process the incoming spans.
-	NumWorkers uint32 `mapstructure:"num-workers,omitempty"`
-
 	// TLSCredentials is a (cert_file, key_file) configuration.
 	TLSCredentials *tlsCredentials `mapstructure:"tls-credentials,omitempty"`
 
@@ -95,9 +92,6 @@ func (rOpts *Config) buildOptions() (opts []Option, err error) {
 
 func (rOpts *Config) traceReceiverOptions() []octrace.Option {
 	var opts []octrace.Option
-	if rOpts.NumWorkers > 0 {
-		opts = append(opts, octrace.WithWorkerCount(int(rOpts.NumWorkers)))
-	}
 
 	if rOpts.EnableBackPressure {
 		opts = append(opts, octrace.WithBackPressure())
