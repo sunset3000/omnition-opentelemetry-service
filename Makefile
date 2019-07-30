@@ -23,6 +23,7 @@ GOIMPORTS=goimports
 GOLINT=golint
 GOMOD?= -mod=vendor
 GOVET=go vet
+GORUN_ARGS?=
 GOOS=$(shell go env GOOS)
 ADDLICENCESE= addlicense
 MISSPELL=misspell -error
@@ -152,6 +153,10 @@ dep:
 .PHONY: omnitelsvc
 omnitelsvc:
 	GO111MODULE=on CGO_ENABLED=0 go build $(GOMOD) -o ./bin/$(GOOS)/omnitelsvc $(BUILD_INFO) ./cmd/omnitelsvc
+
+.PHONY: run
+run:
+	GO111MODULE=on CGO_ENABLED=0 go run $(GOMOD) $(BUILD_INFO) ./cmd/omnitelsvc $(GORUN_ARGS)
 
 .PHONY: docker-component # Not intended to be used directly
 docker-component: check-component
