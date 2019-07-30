@@ -9,6 +9,8 @@ import (
 	"github.com/open-telemetry/opentelemetry-service/processor"
 	"github.com/open-telemetry/opentelemetry-service/processor/addattributesprocessor"
 	"github.com/open-telemetry/opentelemetry-service/processor/attributekeyprocessor"
+	"github.com/open-telemetry/opentelemetry-service/processor/probabilisticsampler"
+
 	"github.com/open-telemetry/opentelemetry-service/processor/nodebatcher"
 	"github.com/open-telemetry/opentelemetry-service/processor/queued"
 	"github.com/open-telemetry/opentelemetry-service/receiver"
@@ -52,6 +54,7 @@ func components() (
 		&queued.Factory{},
 		&nodebatcher.Factory{},
 		&memorylimiter.Factory{},
+		&probabilisticsampler.Factory{},
 	)
 	if err != nil {
 		errs = append(errs, err)

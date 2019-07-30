@@ -11,7 +11,7 @@ require (
 	github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024
 	github.com/omnition/gogoproto-rewriter v0.0.0-20190723134119-239e2d24817f
 	github.com/omnition/opencensus-go-exporter-kinesis v0.3.2
-	github.com/open-telemetry/opentelemetry-service v0.0.0-20190724003804-091e19dd2697
+	github.com/open-telemetry/opentelemetry-service v0.0.0-20190730152809-e87131c79dc4
 	github.com/rs/cors v1.6.0
 	github.com/soheilhy/cmux v0.1.4
 	github.com/stretchr/testify v1.3.0
