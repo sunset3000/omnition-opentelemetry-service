@@ -17,8 +17,6 @@ github.com/Azure/go-autorest v10.8.1+incompatible h1:u0jVQf+a6k6x8A+sT60l6EY9XZu
 github.com/Azure/go-autorest v10.8.1+incompatible/go.mod h1:r+4oMnoxhatjLLJ6zxSWATqVooLgysK6ZNox3g/xq24=
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Omnition/internal-opentelemetry-service v0.0.0-20190723153907-7891a50c7059 h1:5KLp5cgVjtBu6HbslwbAkbwyPxsQQtkX0ZKb4mHgQzQ=
-github.com/Omnition/internal-opentelemetry-service v0.0.0-20190723153907-7891a50c7059/go.mod h1:slFiawUlAvpqApR4Z4+TAjyQmKE2GyfMEgDIeI7naVA=
 github.com/OneOfOne/xxhash v1.2.2 h1:KMrpdQIwFcEqXDklaen+P1axHaj9BSKzvpUUfnHldSE=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
@@ -252,7 +250,6 @@ github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn
 github.com/olekukonko/tablewriter v0.0.0-20180912035003-be2c049b30cc/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
 github.com/omnition/gogoproto-rewriter v0.0.0-20190723134119-239e2d24817f h1:WYgcwtbfI6qFVUiej2XoaMCM/mALl+lHvlLyDaFwAmU=
 github.com/omnition/gogoproto-rewriter v0.0.0-20190723134119-239e2d24817f/go.mod h1:KPlPLR7FonWeEx9RUg54uLFEtVrVv0w1klqkg9krq00=
-github.com/omnition/internal-opentelemetry-service v0.0.0-20190724230739-f752fa0bdd58 h1:S7sJH2YKeSDisx6f6fPiZsTDiF7IVKJK5YB2DpCjiTI=
 github.com/omnition/omnition-kinesis-producer v0.4.5 h1:PViWxVyg3cbfLZV+fvIBn/+AdNWvGlFUfZTia7xkCCE=
 github.com/omnition/omnition-kinesis-producer v0.4.5/go.mod h1:UhBKCuCbBikBOjI1HmHZYhhcUlgqzTdat6d6pX/gx7U=
 github.com/omnition/opencensus-go-exporter-kinesis v0.3.2 h1:+dB8gQ6s20ywh9YzL3s8VT09iMiVAa+G9NAyR+TSgC0=
@@ -261,8 +258,6 @@ github.com/omnition/opencensus-go-exporter-ocagent v0.4.8-gogoproto2-unary2 h1:o
 github.com/omnition/opencensus-go-exporter-ocagent v0.4.8-gogoproto2-unary2/go.mod h1:p3EV69SVN7tnEtz0TAd5X+qoLchnxRFERNm66+NI9Fs=
 github.com/omnition/opencensus-proto v0.2.1-gogo-unary h1:asZXFkqxcl2g9GZ5FLoRzEmeTC74ilNPsZDsGmzmOX0=
 github.com/omnition/opencensus-proto v0.2.1-gogo-unary/go.mod h1:0H3GZbuniC8I1mczBD1xlp/fU1b27tgldAChzw7hva8=
-github.com/omnition/opencensus-proto v0.2.2-gogo3-unary h1:N/Eb32LTEBVpUV2tvxTNyi6bznvpfn5SBaxBAGQgI2Q=
-github.com/omnition/opencensus-proto v0.2.2-gogo3-unary/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/omnition/scribe-go v0.0.0-20190131012523-9e3c68f31124 h1:mJ3GKMlsntao+kIP06AjcDxTQ5M4uG+cFKp8rRLTJG8=
 github.com/omnition/scribe-go v0.0.0-20190131012523-9e3c68f31124/go.mod h1:GnPmaNTr3pdt/V0JmVNVgDq+JEMb/oXxNlsG+pN6gg4=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
@@ -271,11 +266,8 @@ github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+W
 github.com/onsi/gomega v1.4.1/go.mod h1:C1qb7wdrVGGVU+Z6iS04AVkA3Q65CEZX59MT0QO5uiA=
 github.com/onsi/gomega v1.4.3 h1:RE1xgDvH7imwFD45h+u2SgIfERHlS2yNG4DObb5BSKU=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
-github.com/open-telemetry/opentelemetry-service v0.0.0-20190717165254-8905c13995e4/go.mod h1:qZZaqhc2tjQuOq6d1jN16GjRdUpdxWkOOmQ59KM9rOc=
-github.com/open-telemetry/opentelemetry-service v0.0.0-20190724003804-091e19dd2697 h1:3T3KoJ5ffvfx88jjDyNl5xJCR2z+IKQY2jbfYKkyINE=
-github.com/open-telemetry/opentelemetry-service v0.0.0-20190724003804-091e19dd2697/go.mod h1:E4j3OumOvOro3FZ8DPgTqH53Wcvq7pKCiJr5N1VBa4o=
-github.com/open-telemetry/opentelemetry-service v0.0.0-20190730152809-e87131c79dc4 h1:5GbWdg4vXr4o7XlD1k1AORmxz+Ip7rs0i6hULHAnHwg=
-github.com/open-telemetry/opentelemetry-service v0.0.0-20190730152809-e87131c79dc4/go.mod h1:E4j3OumOvOro3FZ8DPgTqH53Wcvq7pKCiJr5N1VBa4o=
+github.com/open-telemetry/opentelemetry-service v0.0.0-20190731175920-831d805e2d8e h1:NPaFmtQI1bYMGpeqVJnFMke19wqrRVrM6uMDURiaobY=
+github.com/open-telemetry/opentelemetry-service v0.0.0-20190731175920-831d805e2d8e/go.mod h1:E4j3OumOvOro3FZ8DPgTqH53Wcvq7pKCiJr5N1VBa4o=
 github.com/opentracing-contrib/go-stdlib v0.0.0-20170113013457-1de4cc2120e7/go.mod h1:PLldrQSroqzH70Xl+1DQcGnefIbqsKR7UDaiux3zV+w=
 github.com/opentracing/basictracer-go v1.0.0/go.mod h1:QfBfYuafItcjQuMwinw9GhYKwFXS9KnPs5lxoYwgW74=
 github.com/opentracing/opentracing-go v1.0.1/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=

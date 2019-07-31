@@ -1,0 +1,67 @@
+package opencensusexporter
+
+import (
+	"path"
+	"testing"
+	"time"
+
+	"github.com/open-telemetry/opentelemetry-service/exporter/opencensusexporter"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/open-telemetry/opentelemetry-service/config"
+	"github.com/open-telemetry/opentelemetry-service/config/configmodels"
+)
+
+func TestLoadConfig(t *testing.T) {
+	receivers, processors, exporters, err := config.ExampleComponents()
+	assert.Nil(t, err)
+
+	factory := &Factory{}
+	exporters[typeStr] = factory
+	cfg, err := config.LoadConfigFile(
+		t, path.Join(".", "testdata", "config.yaml"), receivers, processors, exporters,
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, cfg)
+
+	e0 := cfg.Exporters["opencensus"]
+	assert.Equal(t, e0, factory.CreateDefaultConfig())
+
+	e1 := cfg.Exporters["opencensus/2"]
+	assert.Equal(t, e1,
+		&Config{
+			Config: opencensusexporter.Config{
+				ExporterSettings: configmodels.ExporterSettings{
+					NameVal: "opencensus/2",
+					TypeVal: "opencensus",
+				},
+				Headers: map[string]string{
+					"can you have a . here?": "F0000000-0000-0000-0000-000000000000",
+					"header1":                "234",
+					"another":                "somevalue",
+				},
+				Endpoint:          "1.2.3.4:1234",
+				Compression:       "on",
+				NumWorkers:        123,
+				CertPemFile:       "/var/lib/mycert.pem",
+				UseSecure:         true,
+				ReconnectionDelay: 15,
+				KeepaliveParameters: &opencensusexporter.KeepaliveConfig{
+					Time:                20,
+					PermitWithoutStream: true,
+					Timeout:             30,
+				},
+			},
+			UseUnaryExporter:     true,
+			UnaryExporterTimeout: time.Second * 10,
+		})
+
+	e2 := cfg.Exporters["opencensus/unary-disabled"]
+	cfg2 := factory.CreateDefaultConfig().(*Config)
+	cfg2.ExporterSettings.NameVal = "opencensus/unary-disabled"
+	cfg2.UseUnaryExporter = false
+	assert.Equal(t, e2, cfg2)
+}

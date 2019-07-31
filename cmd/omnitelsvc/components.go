@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/open-telemetry/opentelemetry-service/exporter"
 	"github.com/open-telemetry/opentelemetry-service/exporter/loggingexporter"
-	"github.com/open-telemetry/opentelemetry-service/exporter/opencensusexporter"
 	"github.com/open-telemetry/opentelemetry-service/exporter/prometheusexporter"
 	"github.com/open-telemetry/opentelemetry-service/oterr"
 	"github.com/open-telemetry/opentelemetry-service/processor"
@@ -17,7 +16,8 @@ import (
 	"github.com/open-telemetry/opentelemetry-service/receiver/jaegerreceiver"
 	"github.com/open-telemetry/opentelemetry-service/receiver/zipkinreceiver"
 
-	"github.com/Omnition/internal-opentelemetry-service/exporters/kinesis"
+	"github.com/Omnition/internal-opentelemetry-service/exporter/kinesis"
+	"github.com/Omnition/internal-opentelemetry-service/exporter/opencensusexporter"
 	"github.com/Omnition/internal-opentelemetry-service/processor/memorylimiter"
 	"github.com/Omnition/internal-opentelemetry-service/receiver/opencensusreceiver"
 )
