@@ -1,7 +1,15 @@
-# More exclusions can be added similar with: -not -path './vendor/*'
+# More exclusions can be added similar with: -not -path './testbed/*'
 ALL_SRC := $(shell find . -name '*.go' \
                                 -not -path './vendor/*' \
                                 -not -path './tools/*' \
+                                -not -path './testbed/*' \
+                                -type f | sort)
+
+# All source code and documents. Used in spell check.
+ALL_SRC_AND_DOC := $(shell find . \
+                                -name "*.md" -not -path './vendor/*' -o \
+								-name "*.go" -not -path './vendor/*' -o \
+								-name "*.yaml" -not -path './vendor/*'  \
                                 -type f | sort)
 
 # ALL_PKGS is used with 'go cover'
@@ -11,9 +19,15 @@ GOTEST_OPT?= -race -timeout 30s
 GOTEST_OPT_WITH_COVERAGE = $(GOTEST_OPT) -coverprofile=coverage.txt -covermode=atomic
 GOTEST=go test
 GOFMT=gofmt
+GOIMPORTS=goimports
 GOLINT=golint
+GOMOD?= -mod=vendor
 GOVET=go vet
 GOOS=$(shell go env GOOS)
+ADDLICENCESE= addlicense
+MISSPELL=misspell -error
+MISSPELL_CORRECTION=misspell -w
+STATICCHECK=staticcheck
 
 GIT_SHA=$(shell git rev-parse --short HEAD)
 BUILD_INFO_IMPORT_PATH=github.com/Omnition/internal-opentelemetry-service/internal/version
@@ -29,26 +43,43 @@ all-pkgs:
 all-srcs:
 	@echo $(ALL_SRC) | tr ' ' '\n' | sort
 
-.DEFAULT_GOAL := fmt-vet-lint-test
+.DEFAULT_GOAL := addlicense-fmt-vet-lint-goimports-misspell-staticcheck-test
 
-.PHONY: fmt-vet-lint-test
-fmt-vet-lint-test: fmt vet lint test
+.PHONY: addlicense-fmt-vet-lint-goimports-misspell-staticcheck-test
+addlicense-fmt-vet-lint-goimports-misspell-staticcheck-test: addlicense fmt vet lint goimports misspell staticcheck test
+
+.PHONY: e2e-test
+e2e-test: omnitelsvc
+	$(MAKE) -C testbed runtests
 
 .PHONY: test
 test:
-	$(GOTEST) -mod=vendor $(GOTEST_OPT) $(ALL_PKGS)
+	$(GOTEST) $(GOMOD) $(GOTEST_OPT) $(ALL_PKGS)
 
 .PHONY: travis-ci
-travis-ci: fmt vet lint test-with-cover
+travis-ci: fmt vet lint goimports misspell staticcheck test-with-cover omnitelsvc
+	$(MAKE) -C testbed install-tools
+	$(MAKE) -C testbed runtests
 
 .PHONY: test-with-cover
 test-with-cover:
 	@echo Verifying that all packages have test files to count in coverage
 	@scripts/check-test-files.sh $(subst github.com/Omnition/internal-opentelemetry-service/,./,$(ALL_PKGS))
 	@echo pre-compiling tests
-	@time go test -mod=vendor -i $(ALL_PKGS)
-	$(GOTEST) -mod=vendor $(GOTEST_OPT_WITH_COVERAGE) $(ALL_PKGS)
+	@time go test $(GOMOD) -i $(ALL_PKGS)
+	$(GOTEST) $(GOMOD) $(GOTEST_OPT_WITH_COVERAGE) $(ALL_PKGS)
 	go tool cover -html=coverage.txt -o coverage.html
+
+.PHONY: addlicense
+addlicense:
+	@ADDLICENCESEOUT=`$(ADDLICENCESE) -y 2019 -c 'OpenTelemetry Authors' $(ALL_SRC) 2>&1`; \
+		if [ "$$ADDLICENCESEOUT" ]; then \
+			echo "$(ADDLICENCESE) FAILED => add License errors:\n"; \
+			echo "$$ADDLICENCESEOUT\n"; \
+			exit 1; \
+		else \
+			echo "Add License finished successfully"; \
+		fi
 
 .PHONY: fmt
 fmt:
@@ -72,17 +103,44 @@ lint:
 	    echo "Lint finished successfully"; \
 	fi
 
+.PHONY: goimports
+goimports:
+	@IMPORTSOUT=`$(GOIMPORTS) -d $(ALL_SRC) 2>&1`; \
+	if [ "$$IMPORTSOUT" ]; then \
+		echo "$(GOIMPORTS) FAILED => fix the following goimports errors:\n"; \
+		echo "$$IMPORTSOUT\n"; \
+		exit 1; \
+	else \
+	    echo "Goimports finished successfully"; \
+	fi
+
+.PHONY: misspell
+misspell:
+	$(MISSPELL) $(ALL_SRC_AND_DOC)
+
+.PHONY: misspell-correction
+misspell-correction:
+	$(MISSPELL_CORRECTION) $(ALL_SRC_AND_DOC)
+
+.PHONY: staticcheck
+staticcheck:
+	$(STATICCHECK) $(ALL_SRC)
+
 .PHONY: vet
 vet:
-	@$(GOVET) -mod=vendor ./...
+	@$(GOVET) $(GOMOD) ./...
 	@echo "Vet finished successfully"
 
-.PHONY: install
-install:
-	go mod download
-	go install golang.org/x/lint/golint
-	go install github.com/jstemmer/go-junit-report
-	go install github.com/omnition/gogoproto-rewriter
+.PHONY: install-tools
+install-tools:
+	GO111MODULE=on go install \
+	  github.com/google/addlicense \
+	  golang.org/x/lint/golint \
+	  golang.org/x/tools/cmd/goimports \
+	  github.com/client9/misspell/cmd/misspell \
+	  github.com/jstemmer/go-junit-report \
+	  github.com/omnition/gogoproto-rewriter \
+	  honnef.co/go/tools/cmd/staticcheck
 	$(MAKE) dep
 
 .PHONY: dep
@@ -93,7 +151,7 @@ dep:
 
 .PHONY: omnitelsvc
 omnitelsvc:
-	GO111MODULE=on CGO_ENABLED=0 go build -mod=vendor -o ./bin/$(GOOS)/omnitelsvc $(BUILD_INFO) ./cmd/omnitelsvc
+	GO111MODULE=on CGO_ENABLED=0 go build $(GOMOD) -o ./bin/$(GOOS)/omnitelsvc $(BUILD_INFO) ./cmd/omnitelsvc
 
 .PHONY: docker-component # Not intended to be used directly
 docker-component: check-component

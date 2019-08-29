@@ -29,6 +29,7 @@ import (
 
 func TestLoadConfig(t *testing.T) {
 	receivers, _, exporters, err := config.ExampleComponents()
+	require.NoError(t, err)
 	processors, err := processor.Build(&Factory{})
 	require.NotNil(t, processors)
 	require.NoError(t, err)
