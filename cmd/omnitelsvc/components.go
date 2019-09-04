@@ -30,10 +30,10 @@ import (
 	"github.com/open-telemetry/opentelemetry-service/receiver/jaegerreceiver"
 	"github.com/open-telemetry/opentelemetry-service/receiver/zipkinreceiver"
 
-	"github.com/Omnition/internal-opentelemetry-service/exporter/kinesis"
-	"github.com/Omnition/internal-opentelemetry-service/exporter/opencensusexporter"
-	"github.com/Omnition/internal-opentelemetry-service/processor/memorylimiter"
-	"github.com/Omnition/internal-opentelemetry-service/receiver/opencensusreceiver"
+	"github.com/Omnition/omnition-opentelemetry-service/exporter/kinesis"
+	"github.com/Omnition/omnition-opentelemetry-service/exporter/opencensusexporter"
+	"github.com/Omnition/omnition-opentelemetry-service/processor/memorylimiter"
+	"github.com/Omnition/omnition-opentelemetry-service/receiver/opencensusreceiver"
 )
 
 func components() (

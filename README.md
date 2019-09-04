@@ -1,5 +1,6 @@
-# internal-opentelemetry-service
-Internal build of OpenTelemetry Service (not a fork)
+# Omnition/omnition-opentelemetry-service
+
+Omnition's custom build of OpenTelemetry Service (not a fork).
 
 
 ## Local development
