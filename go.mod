@@ -1,4 +1,4 @@
-module github.com/Omnition/internal-opentelemetry-service
+module github.com/Omnition/omnition-opentelemetry-service
 
 go 1.12
 

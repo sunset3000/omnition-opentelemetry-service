@@ -41,7 +41,7 @@ import (
 	"go.opencensus.io/trace/tracestate"
 	"google.golang.org/grpc"
 
-	"github.com/Omnition/internal-opentelemetry-service/ptypes/ptime"
+	"github.com/Omnition/omnition-opentelemetry-service/ptypes/ptime"
 )
 
 func TestReceiver_endToEnd(t *testing.T) {

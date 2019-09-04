@@ -23,7 +23,7 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/keepalive"
 
-	"github.com/Omnition/internal-opentelemetry-service/receiver/opencensusreceiver/octrace"
+	"github.com/Omnition/omnition-opentelemetry-service/receiver/opencensusreceiver/octrace"
 )
 
 // Config defines configuration for OpenCensus receiver.
