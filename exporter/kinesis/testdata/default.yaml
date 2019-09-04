@@ -1,0 +1,19 @@
+receivers:
+  examplereceiver:
+    enabled: true
+
+exporters:
+  kinesis:
+    enabled: true
+
+processors:
+  exampleprocessor:
+    enabled: true
+
+pipelines:
+  traces:
+    receivers: [examplereceiver]
+    processors: [exampleprocessor]
+    exporters: [kinesis]
+
+
