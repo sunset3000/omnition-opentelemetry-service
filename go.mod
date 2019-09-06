@@ -20,6 +20,7 @@ require (
 	go.opencensus.io v0.22.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3
+	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/tools v0.0.0-20190710184609-286818132824
 	google.golang.org/grpc v1.21.0
 	honnef.co/go/tools v0.0.0-20190106161140-3f1c8253044a
