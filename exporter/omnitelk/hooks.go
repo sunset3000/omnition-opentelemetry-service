@@ -85,45 +85,6 @@ func (h *kinesisHooks) tags(name tag.Key, value string) []tag.Mutator {
 	return tags
 }
 
-func (h *kinesisHooks) OnDrain(bytes, length int64) {
-	_ = stats.RecordWithTags(
-		context.Background(),
-		h.commonTags,
-		statDrainBytes.M(bytes),
-		statDrainLength.M(length),
-	)
-}
-
-func (h *kinesisHooks) OnPutRecords(batches, spanlists, bytes, putLatencyMS int64, reason string) {
-	_ = stats.RecordWithTags(
-		context.Background(),
-		h.tags(tagFlushReason, reason),
-		statPutRequests.M(1),
-		statPutBatches.M(batches),
-		statPutSpanLists.M(spanlists),
-		statPutBytes.M(bytes),
-		statPutLatency.M(putLatencyMS),
-	)
-}
-
-func (h *kinesisHooks) OnPutErr(errCode string) {
-	_ = stats.RecordWithTags(
-		context.Background(),
-		h.tags(tagErrCode, errCode),
-		statPutErrors.M(1),
-	)
-}
-
-func (h *kinesisHooks) OnDropped(batches, spanlists, bytes int64) {
-	_ = stats.RecordWithTags(
-		context.Background(),
-		h.commonTags,
-		statDroppedBatches.M(batches),
-		statDroppedSpanLists.M(spanlists),
-		statDroppedBytes.M(bytes),
-	)
-}
-
 func (h *kinesisHooks) OnSpanEnqueued() {
 	_ = stats.RecordWithTags(
 		context.Background(),

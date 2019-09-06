@@ -36,7 +36,6 @@ var compressedMagicByte = [8]byte{111, 109, 58, 106, 115, 112, 108, 122}
 type shardProducer struct {
 	sync.RWMutex
 
-	// pr            *producer.Producer
 	shard         ShardInMemConfig
 	hooks         *kinesisHooks
 	maxSize       uint64
@@ -80,7 +79,7 @@ func (sp *shardProducer) put(span *jaeger.Span, size uint64) error {
 	sp.spans.Spans = append(sp.spans.Spans, span)
 	sp.size += size
 	sp.Unlock()
-	// atomic.AddUint64(&sp.size, size)
+
 	return nil
 }
 

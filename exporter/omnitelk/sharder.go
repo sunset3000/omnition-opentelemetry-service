@@ -21,9 +21,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/jaegertracing/jaeger/model"
-
 	"github.com/gogo/protobuf/proto"
+	"github.com/jaegertracing/jaeger/model"
 	"go.opencensus.io/stats/view"
 	"go.uber.org/zap"
 
@@ -41,25 +40,12 @@ type sharder struct {
 
 // Options are the options to be used when initializing a Jaeger exporter.
 type Options struct {
-	Name                    string
-	StreamName              string
-	AWSRegion               string
-	AWSRole                 string
-	AWSKinesisEndpoint      string
-	QueueSize               int
-	NumWorkers              int
-	MaxListSize             int
-	ListFlushInterval       int
-	KPLAggregateBatchCount  int
-	KPLAggregateBatchSize   int
-	KPLBatchSize            int
-	KPLBatchCount           int
-	KPLBacklogCount         int
-	KPLFlushIntervalSeconds int
-	KPLMaxConnections       int
-	KPLMaxRetries           int
-	KPLMaxBackoffSeconds    int
-	MaxAllowedSizePerSpan   int
+	Name                  string
+	QueueSize             int
+	NumWorkers            int
+	MaxListSize           int
+	ListFlushInterval     int
+	MaxAllowedSizePerSpan int
 }
 
 // newSharder returns a sharder implementation that exports
@@ -122,21 +108,7 @@ func (s *sharder) startShardProducers(cfg *ShardingInMemConfig) {
 	producers := make([]*shardProducer, 0, len(cfg.shards))
 	for _, shard := range cfg.shards {
 		hooks := newKinesisHooks(o.Name, shard.shardID)
-		//pr := producer.New(&producer.Config{
-		//	AggregateBatchSize:  o.KPLAggregateBatchSize,
-		//	AggregateBatchCount: o.KPLAggregateBatchCount,
-		//	BatchSize:           o.KPLBatchSize,
-		//	BatchCount:          o.KPLBatchCount,
-		//	BacklogCount:        o.KPLBacklogCount,
-		//	MaxConnections:      o.KPLMaxConnections,
-		//	FlushInterval:       time.Second * time.Duration(o.KPLFlushIntervalSeconds),
-		//	MaxRetries:          o.KPLMaxRetries,
-		//	MaxBackoffTime:      time.Second * time.Duration(o.KPLMaxBackoffSeconds),
-		//	Client:              client,
-		//	Verbose:             false,
-		//}, hooks)
 		producers = append(producers, &shardProducer{
-			//pr:            pr,
 			shard:         shard,
 			hooks:         hooks,
 			maxSize:       uint64(o.MaxListSize),
@@ -163,7 +135,6 @@ func (s *sharder) startShardProducers(cfg *ShardingInMemConfig) {
 	for _, sp := range s.producers {
 		sp.start()
 	}
-
 }
 
 // Stop flushes queues and stops exporters.
