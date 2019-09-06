@@ -1,4 +1,4 @@
-// Copyright 2019 OpenTelemetry Authors
+// Copyright 2019 Omnition Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,4 +21,5 @@ import (
 // Config contains the main configuration options for the OmnitelK exporter
 type Config struct {
 	configmodels.ExporterSettings `mapstructure:",squash"`
+	Endpoint                      string `mapstructure:"endpoint"`
 }

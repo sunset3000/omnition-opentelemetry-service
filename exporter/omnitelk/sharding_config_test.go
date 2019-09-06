@@ -1,4 +1,4 @@
-// Copyright 2019 OpenTelemetry Authors
+// Copyright 2019 Omnition Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,12 +25,12 @@ func TestNewShardingInMemConfig(t *testing.T) {
 	pbConf := &omnitelk.ShardingConfig{
 		ShardDefinitions: []*omnitelk.ShardDefinition{
 			{
-				ShardId:         []byte{1, 2, 3},
+				ShardId:         "def",
 				StartingHashKey: []byte{4, 5, 6},
 				EndingHashKey:   []byte{7, 8, 9},
 			},
 			{
-				ShardId:         []byte{0, 1, 2},
+				ShardId:         "abc",
 				StartingHashKey: []byte{3, 4, 5},
 				EndingHashKey:   []byte{6, 7, 8},
 			},
@@ -42,10 +42,10 @@ func TestNewShardingInMemConfig(t *testing.T) {
 	want := &ShardingInMemConfig{
 		shards: []ShardInMemConfig{
 			{
-				shardID: []byte{0, 1, 2},
+				shardID: "abc",
 			},
 			{
-				shardID: []byte{1, 2, 3},
+				shardID: "def",
 			},
 		},
 	}

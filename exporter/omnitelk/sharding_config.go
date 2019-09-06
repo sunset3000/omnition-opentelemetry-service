@@ -1,4 +1,4 @@
-// Copyright 2019 OpenTelemetry Authors
+// Copyright 2019 Omnition Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
 package omnitelk
 
 import (
+	"crypto/md5"
 	"math/big"
 	"sort"
+
+	jaeger "github.com/jaegertracing/jaeger/model"
 
 	omnitelk "github.com/Omnition/omnition-opentelemetry-service/exporter/omnitelk/gen"
 )
@@ -31,7 +34,7 @@ type ShardingInMemConfig struct {
 // ShardInMemConfig  is an immutable in-memory representation of one shard
 // configuration.
 type ShardInMemConfig struct {
-	shardID         []byte
+	shardID         string
 	startingHashKey big.Int
 	endingHashKey   big.Int
 }
@@ -62,4 +65,24 @@ func NewShardingInMemConfig(pbConf *omnitelk.ShardingConfig) *ShardingInMemConfi
 	sort.Sort(byStartingHashKey(sc.shards))
 
 	return sc
+}
+
+func (sc *ShardingInMemConfig) findShard(partitionKey jaeger.TraceID) *ShardInMemConfig {
+	return nil
+}
+
+func toBigInt(key string) *big.Int {
+	num := big.NewInt(0)
+	num.SetString(key, 10)
+	return num
+}
+
+func (s *ShardInMemConfig) belongsToShard(partitionKey string) (bool, error) {
+	key := s.partitionKeyToHashKey(partitionKey)
+	return key.Cmp(&s.startingHashKey) >= 0 && key.Cmp(&s.endingHashKey) <= 0, nil
+}
+
+func (s *ShardInMemConfig) partitionKeyToHashKey(partitionKey string) *big.Int {
+	b := md5.Sum([]byte(partitionKey))
+	return big.NewInt(0).SetBytes(b[:])
 }

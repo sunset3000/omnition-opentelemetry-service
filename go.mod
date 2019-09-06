@@ -4,12 +4,15 @@ go 1.12
 
 require (
 	contrib.go.opencensus.io/exporter/ocagent v0.5.1
+	github.com/aws/aws-sdk-go v1.19.18
+	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/census-instrumentation/opencensus-proto v0.2.2
 	github.com/client9/misspell v0.3.4
 	github.com/gogo/protobuf v1.2.1
 	github.com/golang/protobuf v1.3.1
 	github.com/google/addlicense v0.0.0-20190510175307-22550fa7c1b0
 	github.com/grpc-ecosystem/grpc-gateway v1.9.0
+	github.com/jaegertracing/jaeger v1.9.0
 	github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024
 	github.com/omnition/gogoproto-rewriter v0.0.0-20190723134119-239e2d24817f
 	github.com/omnition/opencensus-go-exporter-kinesis v0.3.2

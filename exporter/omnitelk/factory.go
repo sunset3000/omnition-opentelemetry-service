@@ -1,4 +1,4 @@
-// Copyright 2019 OpenTelemetry Authors
+// Copyright 2019 Omnition Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,10 +43,10 @@ func (f *Factory) CreateDefaultConfig() configmodels.Exporter {
 
 // CreateTraceExporter initializes and returns a new trace exporter
 func (f *Factory) CreateTraceExporter(logger *zap.Logger, cfg configmodels.Exporter) (consumer.TraceConsumer, exporter.StopFunc, error) {
-	stopFunc := func() error {
-		return nil
-	}
-	return Exporter{}, stopFunc, nil
+	e := NewExporter(cfg.(*Config), logger)
+	e.Start()
+
+	return e, e.Stop, nil
 }
 
 // CreateMetricsExporter creates a metrics exporter based on this config.
