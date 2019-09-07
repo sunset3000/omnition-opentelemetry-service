@@ -10,6 +10,7 @@ require (
 	github.com/golang/protobuf v1.3.1
 	github.com/google/addlicense v0.0.0-20190510175307-22550fa7c1b0
 	github.com/grpc-ecosystem/grpc-gateway v1.9.0
+	github.com/imdario/mergo v0.3.7 // indirect
 	github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024
 	github.com/omnition/gogoproto-rewriter v0.0.0-20190723134119-239e2d24817f
 	github.com/omnition/opencensus-go-exporter-kinesis v0.3.2
@@ -23,6 +24,9 @@ require (
 	golang.org/x/tools v0.0.0-20190710184609-286818132824
 	google.golang.org/grpc v1.21.0
 	honnef.co/go/tools v0.0.0-20190106161140-3f1c8253044a
+	k8s.io/api v0.0.0-20181213150558-05914d821849
+	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93
+	k8s.io/client-go v2.0.0-alpha.0.0.20181121191925-a47917edff34+incompatible
 )
 
 replace contrib.go.opencensus.io/exporter/ocagent => github.com/omnition/opencensus-go-exporter-ocagent v0.4.8-gogoproto2-unary2
