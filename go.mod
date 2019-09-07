@@ -34,6 +34,4 @@ require (
 
 replace contrib.go.opencensus.io/exporter/ocagent => github.com/omnition/opencensus-go-exporter-ocagent v0.4.8-gogoproto2-unary2
 
-replace github.com/open-telemetry/opentelemetry-service => ../opentelemetry-service
-
 replace github.com/census-instrumentation/opencensus-proto => github.com/omnition/opencensus-proto v0.2.1-gogo-unary
